@@ -67,6 +67,7 @@ runs:
     - uses: cachix/install-nix-action@v31
       with:
         extra_nix_config: |
+          extra-system-features = kvm
           ${{ steps.extra-platforms-config.outputs.nix-config }}
           ${{ inputs.extra-config }}
         github_access_token: ${{ inputs.github-token }}
