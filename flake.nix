@@ -32,7 +32,7 @@
       };
     };
 
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-26.05-darwin";
 
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
