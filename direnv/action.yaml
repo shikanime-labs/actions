@@ -13,11 +13,6 @@ inputs:
     default: nixpkgs
     description: Nix registry to use
     required: false
-outputs:
-  env:
-    description:
-      JSON object of environment variables changed by direnv (unset -> null)
-    value: ${{ steps.export.outputs.env }}
 runs:
   steps:
     - uses: actions/cache@v5
@@ -45,12 +40,7 @@ runs:
       shell: bash
     - id: export
       run: |
-        ENV="$(cd "$INPUT_PATH" && nix run "$INPUT_REGISTRY#direnv" -- export json)"
-        {
-          echo 'env<<EOF'
-          echo "$ENV"
-          echo 'EOF'
-        } >> "$GITHUB_OUTPUT"
+        nix run "$INPUT_REGISTRY#direnv" -- export json | python3 -c "import json, os, sys; d = json.load(sys.stdin); open(os.environ['GITHUB_ENV'], 'a').write(''.join(f'{k}={v}\n' for k, v in d.items()))"
       shell: bash
       env:
         DIRENV_CONFIG: ${{ steps.nix-direnv.outputs.direnv_config }}
