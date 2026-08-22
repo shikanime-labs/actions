@@ -1,0 +1,48 @@
+name: Skaffold Flux OCI Push
+description: >
+  Push a rendered Skaffold manifest as a Flux OCI artifact to an OCI registry,
+  making it consumable by a Flux OCIRepository. Expects `flux`
+  on PATH (provided by the nix shell via direnv).
+inputs:
+  path:
+    default: .
+    description: Path to the rendered manifest file or directory
+    required: false
+  repository:
+    description: OCI target URL without scheme (e.g. ghcr.io/org/bundles)
+    required: true
+  version:
+    default: ${{ github.sha }}
+    description: Artifact version (defaults to the commit SHA)
+    required: false
+  source:
+    default: ${{ github.repository }}
+    description: Git source label for the Flux artifact provenance
+    required: false
+  revision:
+    default: ${{ github.sha }}
+    description: Git revision label for the Flux artifact provenance
+    required: false
+outputs:
+  oci-ref:
+    description: Full pushed OCI reference (oci://host/repo:tag)
+    value: ${{ steps.flux-push.outputs.oci-ref }}
+runs:
+  using: composite
+  steps:
+    - id: flux-push
+      shell: bash
+      env:
+        INPUT_PATH: ${{ inputs.path }}
+        INPUT_REPOSITORY: ${{ inputs.repository }}
+        INPUT_VERSION: ${{ inputs.version }}
+        INPUT_SOURCE: ${{ inputs.source }}
+        INPUT_REVISION: ${{ inputs.revision }}
+      run: |
+        flux push artifact "oci://$INPUT_REPOSITORY:$INPUT_VERSION" \
+          --path="$INPUT_PATH" \
+          --source="$INPUT_SOURCE" \
+          --revision="$INPUT_REVISION"
+
+        REF="oci://$INPUT_REPOSITORY:$INPUT_VERSION"
+        echo "oci-ref=$REF" >> "$GITHUB_OUTPUT"
