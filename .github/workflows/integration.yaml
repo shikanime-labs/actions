@@ -14,7 +14,7 @@ jobs:
       OPERATOR_PRIVATE_KEY: ${{ secrets.OPERATOR_PRIVATE_KEY }}
     uses: ./.github/workflows/nix.yaml
     with:
-      cachix-name: shikanime-studio
+      cachix-name: shikanime-labs
 "on":
   pull_request:
     branches:
