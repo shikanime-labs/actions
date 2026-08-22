@@ -51,6 +51,7 @@ runs:
           echo "$ENV"
           echo 'EOF'
         } >> "$GITHUB_OUTPUT"
+        echo "$ENV" | python3 -c "import json, os, sys; d = json.load(sys.stdin); open(os.environ['GITHUB_ENV'], 'a').write(''.join(f'{k}={v}\n' for k, v in d.items()))"
       shell: bash
       env:
         DIRENV_CONFIG: ${{ steps.nix-direnv.outputs.direnv_config }}
