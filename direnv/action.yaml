@@ -40,7 +40,7 @@ runs:
       shell: bash
     - id: export
       run: |
-        nix run "$INPUT_REGISTRY#direnv" -- export json | python3 -c "import json, os, sys; d = json.load(sys.stdin); open(os.environ['GITHUB_ENV'], 'a').write(''.join(f'{k}={v}\n' for k, v in d.items()))"
+        nix run "$INPUT_REGISTRY#direnv" -- export json | jq -r 'to_entries[] | select(.value != null) | "\(.key)=\(.value)"' >> "$GITHUB_ENV"
       shell: bash
       env:
         DIRENV_CONFIG: ${{ steps.nix-direnv.outputs.direnv_config }}
