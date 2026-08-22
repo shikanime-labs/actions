@@ -72,6 +72,7 @@ runs:
           ${{ inputs.extra-config }}
         github_access_token: ${{ inputs.github-token }}
     - if: ${{ inputs.cachix-name != '' && inputs.cachix-auth-token != '' }}
+      continue-on-error: true
       uses: cachix/cachix-action@v17
       with:
         name: ${{ inputs.cachix-name }}
