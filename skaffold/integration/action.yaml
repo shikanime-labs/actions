@@ -1,12 +1,12 @@
 name: Skaffold Integration
 description: Run Skaffold build and render, optionally with a profile
 inputs:
-  profile:
-    description: Optional Skaffold profile name
-    required: false
   platforms:
     default: '["linux/amd64","linux/arm64"]'
     description: JSON array of target platforms
+    required: false
+  profile:
+    description: Optional Skaffold profile name
     required: false
   push:
     default: "true"
@@ -17,7 +17,6 @@ outputs:
     description: Rendered manifest YAML
     value: ${{ steps.skaffold.outputs.manifest }}
 runs:
-  using: composite
   steps:
     - id: platform
       run: |
@@ -41,3 +40,4 @@ runs:
         SKAFFOLD_PLATFORM: ${{ steps.platform.outputs.platform }}
         SKAFFOLD_PROFILE: ${{ inputs.profile }}
         SKAFFOLD_PUSH: ${{ inputs.push }}
+  using: composite

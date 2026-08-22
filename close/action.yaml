@@ -22,7 +22,6 @@ inputs:
     description: Nix registry to use
     required: false
 runs:
-  using: composite
   steps:
     - env:
         INPUT_PULL_REQUEST_URL: ${{ inputs.pull-request-url }}
@@ -41,3 +40,4 @@ runs:
         'github-pull-request'
       run: gh pr close --delete-branch "$INPUT_PULL_REQUEST_URL"
       shell: bash
+  using: composite

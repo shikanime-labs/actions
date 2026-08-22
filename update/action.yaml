@@ -31,7 +31,6 @@ inputs:
     default: github-actions
     description: Username
 runs:
-  using: composite
   steps:
     - run: nix flake update --accept-flake-config
       shell: bash
@@ -94,3 +93,4 @@ runs:
           echo "Existing open PR #$EXISTING for $PUSH_BRANCH -> $INPUT_BASE, not creating a new one."
         fi
       shell: bash
+  using: composite

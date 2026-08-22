@@ -29,7 +29,6 @@ inputs:
     description: Username
     required: false
 runs:
-  using: composite
   steps:
     - env:
         INPUT_PULL_REQUEST_URL: ${{ inputs.pull-request-url }}
@@ -90,3 +89,4 @@ runs:
           --title "$ORIG_TITLE" \
           --body-file "$ORIG_BODY_FILE"
       shell: bash
+  using: composite

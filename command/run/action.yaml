@@ -18,7 +18,6 @@ inputs:
     description: Reaction to add to the triggering comment
     required: false
 runs:
-  using: composite
   steps:
     - id: command
       uses: github/command@v2
@@ -41,3 +40,4 @@ runs:
         github-token: ${{ inputs.github-token }}
         ref: ${{ steps.checkout.outputs.head-ref }}
         workflow: ${{ steps.command.outputs.params }}
+  using: composite

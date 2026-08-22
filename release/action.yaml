@@ -14,7 +14,6 @@ inputs:
     description: Target repository for the release (owner/repo)
     required: false
 runs:
-  using: composite
   steps:
     - env:
         GH_TOKEN: ${{ inputs.github-token }}
@@ -41,3 +40,4 @@ runs:
           gh release upload "$REF_NAME" "$file" --repo "$INPUT_REPO" --clobber
         done < <(find artifacts -type f -print0)
       shell: bash
+  using: composite

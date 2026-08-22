@@ -1,18 +1,6 @@
 name: Checkout
 description: Checkout repository with method-appropriate defaults
 inputs:
-  github-token:
-    default: ${{ github.token }}
-    description: The GitHub Token
-    required: false
-  pull-request-url:
-    default: ""
-    description: The Pull Request URL
-    required: false
-  registry:
-    default: nixpkgs
-    description: Nix registry to use
-    required: false
   email:
     default: github-actions[bot]@users.noreply.github.com
     description: Email for sapling identity
@@ -20,6 +8,10 @@ inputs:
   fullname:
     default: github-actions[bot]
     description: Full name for sapling identity
+    required: false
+  github-token:
+    default: ${{ github.token }}
+    description: The GitHub Token
     required: false
   github-url:
     default: github.com
@@ -32,6 +24,14 @@ inputs:
   gpg-private-key:
     default: ""
     description: GPG private key for signing commits
+    required: false
+  pull-request-url:
+    default: ""
+    description: The Pull Request URL
+    required: false
+  registry:
+    default: nixpkgs
+    description: Nix registry to use
     required: false
   sign-commits:
     default: "false"
@@ -59,7 +59,6 @@ outputs:
     description: The parent pull request URL if part of a stack (when available)
     value: ${{ steps.stack.outputs.parent-pull-request-url }}
 runs:
-  using: composite
   steps:
     - uses: actions/checkout@v7
       with:
@@ -188,8 +187,8 @@ runs:
         gpg_private_key: ${{ inputs.gpg-private-key }}
         passphrase: ${{ inputs.gpg-passphrase }}
     - env:
-        KEY_ID: ${{ steps.gpg.outputs.keyid }}
         INPUT_REGISTRY: ${{ inputs.registry }}
+        KEY_ID: ${{ steps.gpg.outputs.keyid }}
       if:
         ${{ steps.stack.outputs.method == 'sapling-pull-request' &&
         inputs.sign-commits == 'true' }}
@@ -199,8 +198,8 @@ runs:
           --local commit.gpgsign true
       shell: bash
     - env:
-        KEY_ID: ${{ steps.gpg.outputs.keyid }}
         INPUT_REGISTRY: ${{ inputs.registry }}
+        KEY_ID: ${{ steps.gpg.outputs.keyid }}
       if:
         ${{ steps.stack.outputs.method == 'github-pull-request' &&
         inputs.sign-commits == 'true' }}
@@ -212,3 +211,4 @@ runs:
         nix run "$INPUT_REGISTRY#jujutsu" -- config set \
           --repo signing.key "$KEY_ID"
       shell: bash
+  using: composite

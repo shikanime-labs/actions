@@ -1,17 +1,13 @@
 name: Setup Nix
 description: Install Nix and configure Cachix
 inputs:
-  github-token:
-    default: ${{ github.token }}
-    description: GitHub token used by the Nix installer
+  cachix-auth-token:
+    default: ""
+    description: Cachix auth token
     required: false
   cachix-name:
     default: ""
     description: Cachix cache name
-    required: false
-  cachix-auth-token:
-    default: ""
-    description: Cachix auth token
     required: false
   cachix-signing-key:
     default: ""
@@ -25,8 +21,11 @@ inputs:
     default: ""
     description: Platforms to setup QEMU for
     required: false
+  github-token:
+    default: ${{ github.token }}
+    description: GitHub token used by the Nix installer
+    required: false
 runs:
-  using: composite
   steps:
     - if: ${{ inputs.extra-platforms != '' }}
       uses: docker/setup-qemu-action@v4
@@ -71,10 +70,11 @@ runs:
           ${{ steps.extra-platforms-config.outputs.nix-config }}
           ${{ inputs.extra-config }}
         github_access_token: ${{ inputs.github-token }}
-    - if: ${{ inputs.cachix-name != '' && inputs.cachix-auth-token != '' }}
-      continue-on-error: true
+    - continue-on-error: true
+      if: ${{ inputs.cachix-name != '' && inputs.cachix-auth-token != '' }}
       uses: cachix/cachix-action@v17
       with:
         name: ${{ inputs.cachix-name }}
         authToken: ${{ inputs.cachix-auth-token }}
         signingKey: ${{ inputs.cachix-signing-key }}
+  using: composite

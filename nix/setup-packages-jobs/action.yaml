@@ -1,6 +1,10 @@
 name: Setup Packages Jobs
 description: Generate matrix for Nix packages on Linux systems
 inputs:
+  excludes:
+    default: '["devenv-up", "devenv-test"]'
+    description: Packages to exclude
+    required: false
   systems:
     default: |
       {
@@ -8,10 +12,6 @@ inputs:
         "ubuntu-24.04-arm": ["aarch64-linux", "armv6l-linux", "armv7l-linux"]
       }
     description: Runner to systems mapping
-    required: false
-  excludes:
-    default: '["devenv-up", "devenv-test"]'
-    description: Packages to exclude
     required: false
 outputs:
   continue:
@@ -21,7 +21,6 @@ outputs:
     description: JSON array of matrix entries
     value: ${{ steps.matrix.outputs.matrix }}
 runs:
-  using: composite
   steps:
     - id: matrix
       run: |
@@ -68,3 +67,4 @@ runs:
       env:
         INPUT_EXCLUDES: ${{ inputs.excludes }}
         INPUT_SYSTEMS: ${{ inputs.systems }}
+  using: composite

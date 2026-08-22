@@ -9,7 +9,6 @@ inputs:
     description: Nix system (used when building from package name)
     required: false
 runs:
-  using: composite
   steps:
     - id: target
       run: |
@@ -108,7 +107,7 @@ runs:
           echo "EOF"
         } >> "$GITHUB_OUTPUT"
       shell: bash
-    - if: >-
+    - if:
         ${{ steps.nixos.outputs.found == 'true' && steps.artifact.outputs.upload
         == 'true' }}
       uses: actions/upload-artifact@v7
@@ -116,3 +115,4 @@ runs:
         name: ${{ steps.target.outputs.name }}
         if-no-files-found: error
         path: ${{ steps.artifact.outputs.paths }}
+  using: composite

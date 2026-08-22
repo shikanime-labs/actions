@@ -13,7 +13,6 @@ outputs:
     description: JSON array usable as a strategy matrix include list
     value: ${{ steps.matrix.outputs.matrix }}
 runs:
-  using: composite
   steps:
     - id: matrix
       run: |
@@ -36,3 +35,4 @@ runs:
       shell: bash
       env:
         INPUT_PATH: ${{ inputs.path }}
+  using: composite

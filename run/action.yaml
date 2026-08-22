@@ -13,7 +13,6 @@ inputs:
     description: Workflow name or path to run (must support workflow_dispatch)
     required: true
 runs:
-  using: composite
   steps:
     - env:
         GH_TOKEN: ${{ inputs.github-token }}
@@ -24,3 +23,4 @@ runs:
           --ref "$INPUT_REF" \
           --repo "${{ github.repository }}"
       shell: bash
+  using: composite

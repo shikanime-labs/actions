@@ -19,7 +19,6 @@ outputs:
     description: Whether the pull request is eligible (and all checks succeeded)
     value: ${{ steps.checks.outputs.continue }}
 runs:
-  using: composite
   steps:
     - id: checks
       uses: actions/github-script@v9
@@ -80,3 +79,4 @@ runs:
             core.warning(`Checks failed: ${err.message}`);
             core.setOutput('continue', 'false');
           }
+  using: composite

@@ -14,7 +14,6 @@ inputs:
     description: The Pull Request URL (for ghstack/sapling branch detection)
     required: false
 runs:
-  using: composite
   steps:
     - id: checkout
       uses: shikanime-studio/actions/checkout@v9
@@ -38,3 +37,4 @@ runs:
           git push origin --delete "$PREFIX/$role" || true
         done
       shell: bash
+  using: composite

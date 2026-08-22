@@ -54,7 +54,6 @@ inputs:
     description: Username
     required: false
 runs:
-  using: composite
   steps:
     - id: command
       uses: github/command@v2
@@ -114,3 +113,4 @@ runs:
         gh pr comment "$PR_URL" --body "$BODY"
         exit 1
       shell: bash
+  using: composite

@@ -17,7 +17,6 @@ outputs:
     description: JSON array of matrix entries
     value: ${{ steps.matrix.outputs.matrix }}
 runs:
-  using: composite
   steps:
     - id: matrix
       run: |
@@ -55,3 +54,4 @@ runs:
       shell: bash
       env:
         INPUT_SYSTEMS: ${{ inputs.systems }}
+  using: composite
