@@ -308,65 +308,6 @@ run:
               || secrets.GITHUB_TOKEN }}
 ```
 
-To automate dependency updates and repository hygiene, you can also add a
-scheduled workflow for updates that uses the `update` action:
-
-```yaml
-name: Update
-"on":
-  schedule:
-    - cron: 0 4 * * 0
-  workflow_dispatch:
-jobs:
-  dependencies:
-    runs-on: ubuntu-slim
-    steps:
-      - continue-on-error: true
-        id: createGithubAppToken
-        uses: actions/create-github-app-token@v3.1.1
-        with:
-          client-id: ${{ vars.OPERATOR_APP_CLIENT_ID }}
-          permission-contents: write
-          permission-issues: write
-          permission-pull-requests: write
-          private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-          token: >-
-            ${{ steps.createGithubAppToken.outputs.token
-                || secrets.GITHUB_TOKEN }}
-      - uses: cachix/install-nix-action@v31
-        with:
-          github_access_token: >-
-            ${{ steps.createGithubAppToken.outputs.token
-                || secrets.GITHUB_TOKEN }}
-      - uses: shikanime-studio/actions/update@v9
-        with:
-          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          sign-commits: true
-  stale:
-    runs-on: ubuntu-slim
-    steps:
-      - continue-on-error: true
-        id: createGithubAppToken
-        uses: actions/create-github-app-token@v3.1.1
-        with:
-          client-id: ${{ vars.OPERATOR_APP_CLIENT_ID }}
-          permission-contents: write
-          permission-issues: write
-          permission-pull-requests: write
-          private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
-      - uses: actions/stale@v10
-        with:
-          days-before-close: 14
-          days-before-stale: 30
-          repo-token: >-
-            ${{ steps.createGithubAppToken.outputs.token
-                || secrets.GITHUB_TOKEN }}
-```
-
 To automatically delete branches after a pull request is merged or closed, add a
 cleanup workflow to `.github/workflows/cleanup.yaml`:
 

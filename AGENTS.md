@@ -8,7 +8,6 @@ them to workflows as shown in README, then trigger via PR comments.
 ## Structure
 
 - `command/` — Comment-driven actions (land, rebase, close, backport, run)
-- `update/` — Flake input updates and publishing
 - `cleanup/` — Post-merge branch cleanup
 - `nix/` — Nix setup and matrix helper actions
 
