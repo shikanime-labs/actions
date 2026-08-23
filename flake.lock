@@ -102,11 +102,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787361393,
-        "narHash": "sha256-I0ql/qKgRbnpzDw9ytZMV+F/2NH1niIh9YdARFhsoMI=",
-        "owner": "shikanime-studio",
+        "lastModified": 1787489772,
+        "narHash": "sha256-HIDJcIlyd+YztD6dFO4F0/hYmBSVw0Wvs6qjBKXpsH4=",
+        "owner": "shikanime-labs",
         "repo": "devlib",
-        "rev": "8cbe7ec82a8fe66bdabcd4d8aacc946c9d73cf67",
+        "rev": "ac3e8bf8821815521fe5c22620a5ab7512dc548b",
         "type": "github"
       },
       "original": {
@@ -191,11 +191,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784288435,
-        "narHash": "sha256-ReRHaLgr/uVqdD8afFSn+myXIfpHeOhP0yYe0TJqAA8=",
+        "lastModified": 1787424939,
+        "narHash": "sha256-O2tBn84NNuHrnqNVxx/XqsXwfYvS1YwBh+7CBnbCYsk=",
         "owner": "cachix",
         "repo": "git-hooks.nix",
-        "rev": "43b3c1ab9d40fb1dbb008f451988a91e375825e9",
+        "rev": "809414f0cdadf82cf11b06c2b29ba9b3168b3297",
         "type": "github"
       },
       "original": {
@@ -272,16 +272,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1786920013,
-        "narHash": "sha256-tlbRqzZ3suDUO3vyR0QFBk0TrxJiRP50t7VWfHhtVrw=",
+        "lastModified": 1787209939,
+        "narHash": "sha256-WvvHR4kSQLAbtouMC/ruZ5UpLwlUcY3K4FAllMN+yGk=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "33da5f36e599b50aa7dbbfacb718254423b18354",
+        "rev": "391b592eb44808b3bd0cb80bb71b63a5a118b8bb",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "nixpkgs-26.05-darwin",
+        "ref": "nixpkgs-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
