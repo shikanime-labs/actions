@@ -63,13 +63,18 @@ runs:
       shell: bash
       env:
         INPUT_EXTRA_PLATFORMS: ${{ inputs.extra-platforms }}
-    - uses: cachix/install-nix-action@v31
+    # Pin Nix to 2.34.8. Unpinned @v31 drifts to Nix 2.35.x, whose FOD
+    # narHash verification regresses against older devenv pins, yielding
+    # "public key is not valid". v31.10.7 ships 2.34.8; install_url makes
+    # the pin deterministic. Related: t_de8c05dd
+    - uses: cachix/install-nix-action@v31.10.7
       with:
         extra_nix_config: |
           extra-system-features = kvm
           ${{ steps.extra-platforms-config.outputs.nix-config }}
           ${{ inputs.extra-config }}
         github_access_token: ${{ inputs.github-token }}
+        install_url: https://releases.nixos.org/nix/nix-2.34.8/install
     - continue-on-error: true
       if: ${{ inputs.cachix-name != '' && inputs.cachix-auth-token != '' }}
       uses: cachix/cachix-action@v17
