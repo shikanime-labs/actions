@@ -52,7 +52,7 @@ inputs:
 runs:
   steps:
     - id: command
-      uses: github/command@v2
+      uses: github/command@3442f3fa1efe01bdb024b157083c337902d17372 # v2
       with:
         allowed_contexts: pull_request
         command: .land
@@ -60,7 +60,7 @@ runs:
         permissions: ${{ inputs.permissions }}
         reaction: ${{ inputs.reaction }}
     - id: command-force
-      uses: github/command@v2
+      uses: github/command@3442f3fa1efe01bdb024b157083c337902d17372 # v2
       with:
         allowed_contexts: pull_request
         command: .force-land
@@ -72,7 +72,7 @@ runs:
       if:
         steps.command.outputs.continue == 'true' ||
         steps.command-force.outputs.continue == 'true'
-      uses: shikanime-studio/actions/checkout@v9
+      uses: shikanime-studio/actions/checkout@5993d4d95befc190a14c0d143583683d203ad8d1 # v9
       with:
         email: ${{ inputs.email }}
         fullname: ${{ inputs.fullname }}
@@ -88,7 +88,7 @@ runs:
       if:
         steps.command.outputs.continue == 'true' ||
         steps.command-force.outputs.continue == 'true'
-      uses: shikanime-studio/actions/land@v9
+      uses: shikanime-studio/actions/land@5993d4d95befc190a14c0d143583683d203ad8d1 # v9
       with:
         base: ${{ inputs.base }}
         github-token: ${{ inputs.github-token }}
