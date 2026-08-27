@@ -12,6 +12,10 @@ inputs:
     default: "true"
     description: Whether to push images during build
     required: false
+  otel-endpoint:
+    default: ""
+    description: OTLP gRPC endpoint for tracing (e.g. localhost:4317). When empty, tracing is disabled.
+    required: false
 outputs:
   manifest:
     description: Rendered manifest YAML
@@ -40,4 +44,5 @@ runs:
         SKAFFOLD_PLATFORM: ${{ steps.platform.outputs.platform }}
         SKAFFOLD_PROFILE: ${{ inputs.profile }}
         SKAFFOLD_PUSH: ${{ inputs.push }}
+        OTEL_EXPORTER_OTLP_ENDPOINT: ${{ inputs.otel-endpoint }}
   using: composite
