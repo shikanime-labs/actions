@@ -28,7 +28,7 @@ inputs:
 runs:
   steps:
     - if: ${{ inputs.extra-platforms != '' }}
-      uses: docker/setup-qemu-action@v4
+      uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4
       with:
         platforms: ${{ inputs.extra-platforms }}
     - id: extra-platforms-config
@@ -63,7 +63,7 @@ runs:
       shell: bash
       env:
         INPUT_EXTRA_PLATFORMS: ${{ inputs.extra-platforms }}
-    - uses: cachix/install-nix-action@v31
+    - uses: cachix/install-nix-action@13d8dd58da0234aa297dedd986986ccb8e7f3e24 # v31
       with:
         extra_nix_config: |
           extra-system-features = kvm
@@ -72,7 +72,7 @@ runs:
         github_access_token: ${{ inputs.github-token }}
     - continue-on-error: true
       if: ${{ inputs.cachix-name != '' && inputs.cachix-auth-token != '' }}
-      uses: cachix/cachix-action@v17
+      uses: cachix/cachix-action@5f2d7c5294214f71b873db4b969586b980625e71 # v17
       with:
         name: ${{ inputs.cachix-name }}
         authToken: ${{ inputs.cachix-auth-token }}
