@@ -20,7 +20,7 @@ inputs:
 runs:
   steps:
     - id: command
-      uses: github/command@v2
+      uses: github/command@3442f3fa1efe01bdb024b157083c337902d17372 # v2
       with:
         allowed_contexts: pull_request
         command: .run
@@ -30,12 +30,12 @@ runs:
         skip_ci: true
     - id: checkout
       if: steps.command.outputs.continue == 'true'
-      uses: shikanime-studio/actions/checkout@v9
+      uses: shikanime-studio/actions/checkout@5993d4d95befc190a14c0d143583683d203ad8d1 # v9
       with:
         github-token: ${{ inputs.github-token }}
         pull-request-url: ${{ inputs.pull-request-url }}
     - if: steps.command.outputs.continue == 'true'
-      uses: shikanime-studio/actions/run@v9
+      uses: shikanime-studio/actions/run@5993d4d95befc190a14c0d143583683d203ad8d1 # v9
       with:
         github-token: ${{ inputs.github-token }}
         ref: ${{ steps.checkout.outputs.head-ref }}
