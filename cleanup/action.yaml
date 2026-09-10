@@ -16,7 +16,7 @@ inputs:
 runs:
   steps:
     - id: checkout
-      uses: shikanime-studio/actions/checkout@v9
+      uses: shikanime-studio/actions/checkout@5993d4d95befc190a14c0d143583683d203ad8d1 # v9
       with:
         github-token: ${{ inputs.github-token }}
         pull-request-url: ${{ inputs.pull-request-url }}

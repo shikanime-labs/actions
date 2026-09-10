@@ -40,7 +40,7 @@ inputs:
 runs:
   steps:
     - id: command
-      uses: github/command@v2
+      uses: github/command@3442f3fa1efe01bdb024b157083c337902d17372 # v2
       with:
         allowed_contexts: pull_request
         command: .backport
@@ -50,7 +50,7 @@ runs:
         skip_ci: true
     - id: checkout
       if: steps.command.outputs.continue == 'true'
-      uses: shikanime-studio/actions/checkout@v9
+      uses: shikanime-studio/actions/checkout@5993d4d95befc190a14c0d143583683d203ad8d1 # v9
       with:
         github-token: ${{ inputs.github-token }}
         gpg-passphrase: ${{ inputs.gpg-passphrase }}
@@ -62,7 +62,7 @@ runs:
     - id: backport
       continue-on-error: true
       if: steps.command.outputs.continue == 'true'
-      uses: shikanime-studio/actions/backport@v9
+      uses: shikanime-studio/actions/backport@5993d4d95befc190a14c0d143583683d203ad8d1 # v9
       with:
         github-token: ${{ inputs.github-token }}
         method: ${{ steps.checkout.outputs.method }}
