@@ -173,8 +173,8 @@ runs:
     - env:
         INPUT_REGISTRY: ${{ inputs.registry }}
       if:
-        inputs.pull-request-url != '' && steps.stack.outputs.method ==
-        'github-pull-request' && inputs.sign-commits == 'true'
+        steps.stack.outputs.method == 'github-pull-request' &&
+        inputs.sign-commits == 'true'
       run: |
         nix run "$INPUT_REGISTRY#jujutsu" -- git init --colocate
       shell: bash
