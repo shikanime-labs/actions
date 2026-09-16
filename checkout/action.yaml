@@ -201,8 +201,9 @@ runs:
         INPUT_REGISTRY: ${{ inputs.registry }}
         KEY_ID: ${{ steps.gpg.outputs.keyid }}
       if:
-        ${{ steps.stack.outputs.method == 'github-pull-request' &&
-        inputs.sign-commits == 'true' }}
+        inputs.pull-request-url != '' &&
+        steps.stack.outputs.method == 'github-pull-request' &&
+        inputs.sign-commits == 'true'
       run: |
         nix run "$INPUT_REGISTRY#jujutsu" -- config set \
           --repo signing.backend gpg
