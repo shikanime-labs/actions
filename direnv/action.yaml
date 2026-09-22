@@ -40,7 +40,9 @@ runs:
       shell: bash
     - id: export
       run: |
-        nix run "$INPUT_REGISTRY#direnv" -- export json | jq -r 'to_entries[] | select(.value != null) | "\(.key)=\(.value)"' >> "$GITHUB_ENV"
+        export_json="$(nix run "$INPUT_REGISTRY#direnv" -- export json)"
+        printf '%s' "$export_json" | jq -r 'to_entries[] | select(.value != null and .key != "PATH") | "\(.key)=\(.value)"' >> "$GITHUB_ENV"
+        printf '%s' "$export_json" | jq -r '.PATH // empty' >> "$GITHUB_PATH"
       shell: bash
       env:
         DIRENV_CONFIG: ${{ steps.nix-direnv.outputs.direnv_config }}
