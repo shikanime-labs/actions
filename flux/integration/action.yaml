@@ -1,0 +1,56 @@
+name: Flux Integration
+description: >-
+  Render the repo's Skaffold profiles and push each rendered manifest as a
+  Flux OCI artifact to ghcr.io/<owner>/<repo>/manifests[/<profile>]. Expects
+  `flux` on PATH (provided by the nix shell via direnv).
+inputs:
+  version:
+    default: ${{ github.sha }}
+    description: Artifact version (defaults to the commit SHA)
+    required: false
+  source:
+    default: ${{ github.repository }}
+    description: Git source label for the Flux artifact provenance
+    required: false
+  revision:
+    default: ${{ github.sha }}
+    description: Git revision label for the Flux artifact provenance
+    required: false
+outputs:
+  oci-refs:
+    description: Comma-separated pushed OCI references (oci://host/repo:tag)
+    value: ${{ steps.flux-integration.outputs.oci-refs }}
+runs:
+  using: composite
+  steps:
+    - id: flux-integration
+      shell: bash
+      run: |
+        set -euo pipefail
+        BASE="ghcr.io/${GITHUB_REPOSITORY}/manifests"
+        REFS=""
+        SEP=""
+        COUNT="$(skaffold profile list -o json | jq -r 'length')"
+        if [ -z "$COUNT" ] || [ "$COUNT" -eq 0 ]; then
+          REF="$BASE:${INPUT_VERSION}"
+          skaffold render > rendered-manifest.yaml
+          flux push artifact "oci://${REF}" --path=rendered-manifest.yaml \
+            --source="$INPUT_SOURCE" \
+            --revision="$INPUT_REVISION"
+          REFS="$REF"
+        else
+          while IFS= read -r PROFILE; do
+            REF="$BASE/$PROFILE:${INPUT_VERSION}"
+            skaffold render --profile="$PROFILE" > "rendered-$PROFILE.yaml"
+            flux push artifact "oci://$REF" --path="rendered-$PROFILE.yaml" \
+              --source="$INPUT_SOURCE" \
+              --revision="$INPUT_REVISION"
+            REFS="$REFS$SEP$REF"
+            SEP=","
+          done < <(skaffold profile list -o json | jq -r '.[].name')
+        fi
+        echo "oci-refs=$REFS" >> "$GITHUB_OUTPUT"
+      env:
+        INPUT_VERSION: ${{ inputs.version }}
+        INPUT_SOURCE: ${{ inputs.source }}
+        INPUT_REVISION: ${{ inputs.revision }}
