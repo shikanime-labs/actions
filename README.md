@@ -15,7 +15,6 @@ App token, configure repository permissions accordingly:
 - Close: pull-requests: write, contents: write, issues: write
 - Backport: contents: write, pull-requests: write, issues: write
 - Update: contents: write, pull-requests: write, issues: write
-- Cleanup: contents: write
 
 Permissions can be configured at the workflow level or per job. The examples
 below set them at the workflow level and request matching scopes from the GitHub
@@ -308,31 +307,3 @@ run:
               || secrets.GITHUB_TOKEN }}
 ```
 
-To automatically delete branches after a pull request is merged or closed, add a
-cleanup workflow to `.github/workflows/cleanup.yaml`:
-
-```yaml
-name: Cleanup
-"on":
-  pull_request:
-    types:
-      - closed
-jobs:
-  cleanup:
-    runs-on: ubuntu-slim
-    steps:
-      - continue-on-error: true
-        id: createGithubAppToken
-        uses: actions/create-github-app-token@v3.1.1
-        with:
-          client-id: ${{ vars.OPERATOR_APP_CLIENT_ID }}
-          permission-contents: write
-          private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-          token: >-
-            ${{ steps.createGithubAppToken.outputs.token
-                || secrets.GITHUB_TOKEN }}
-      - uses: shikanime-studio/actions/cleanup@v9
-```
