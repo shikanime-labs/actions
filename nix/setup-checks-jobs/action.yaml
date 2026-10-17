@@ -30,7 +30,7 @@ runs:
         else
           RESULT="$(
             jq -c '
-              .checks as $root
+              (.checks // {}) as $root
               | ($root | keys) as $available
               | (env.INPUT_SYSTEMS | fromjson) as $systems
               | ($systems | to_entries)
