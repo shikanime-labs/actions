@@ -1,6 +1,6 @@
 # Actions
 
-This repository provides a set of GitHub Actions that let you land, rebase,
+This repository provides a set of GitHub Actions that let you rebase,
 close, backport, and update pull requests using Sapling, ghstack, and jujutsu
 directly from the GitHub Pull Request web interface. Each command is triggered
 from PR comments and handled by a dedicated action.
@@ -37,43 +37,6 @@ permissions:
   issues: write
   pull-requests: write
 jobs:
-  land:
-    if: >-
-      github.event.issue.pull_request != null &&
-      contains(github.event.comment.body, '.land')
-    runs-on: ubuntu-slim
-    steps:
-      - continue-on-error: true
-        id: createGithubAppToken
-        uses: actions/create-github-app-token@v3.1.1
-        with:
-          client-id: ${{ vars.OPERATOR_APP_CLIENT_ID }}
-          permission-contents: write
-          permission-issues: write
-          permission-pull-requests: write
-          private-key: ${{ secrets.OPERATOR_PRIVATE_KEY }}
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-          token: >-
-            ${{ steps.createGithubAppToken.outputs.token
-                || secrets.GITHUB_TOKEN }}
-      - uses: cachix/install-nix-action@v31
-        with:
-          github_access_token: >-
-            ${{ steps.createGithubAppToken.outputs.token
-                || secrets.GITHUB_TOKEN }}
-      - uses: shikanime-studio/actions/command/land@main
-        with:
-          email: operator6o@shikanime.studio
-          fullname: Operator 6O
-          github-token: >-
-            ${{ steps.createGithubAppToken.outputs.token
-                || secrets.GITHUB_TOKEN }}
-          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          sign-commits: true
-          username: operator6o
   rebase:
     if: >-
       github.event.issue.pull_request != null &&
