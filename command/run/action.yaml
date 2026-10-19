@@ -30,12 +30,12 @@ runs:
         skip_ci: true
     - id: checkout
       if: steps.command.outputs.continue == 'true'
-      uses: shikanime-studio/actions/checkout@a91a9b57c78121e303aa30aea2d8ed2ee03ff45f # v9
+      uses: shikanime-studio/actions/checkout@8144b45cf1aed7ee09337cbca6b7d94b4693ef5e # v9
       with:
         github-token: ${{ inputs.github-token }}
         pull-request-url: ${{ inputs.pull-request-url }}
     - if: steps.command.outputs.continue == 'true'
-      uses: shikanime-studio/actions/run@a91a9b57c78121e303aa30aea2d8ed2ee03ff45f # v9
+      uses: shikanime-studio/actions/run@8144b45cf1aed7ee09337cbca6b7d94b4693ef5e # v9
       with:
         github-token: ${{ inputs.github-token }}
         ref: ${{ steps.checkout.outputs.head-ref }}
