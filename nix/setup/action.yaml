@@ -77,4 +77,9 @@ runs:
         name: ${{ inputs.cachix-name }}
         authToken: ${{ inputs.cachix-auth-token }}
         signingKey: ${{ inputs.cachix-signing-key }}
+        # Store-scan mode: the daemon's post-stop upload races the job teardown
+        # and silently drops multi-GB paths (observed: docker-image tar.gz 404
+        # after a green "Pushing ..." log line). A synchronous scan-push waits
+        # for every path to land before the job ends.
+        useDaemon: false
   using: composite
