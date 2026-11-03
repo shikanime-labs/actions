@@ -23,7 +23,8 @@ runs:
         REF_NAME="${INPUT_REF#refs/tags/}"
         gh release view "$REF_NAME" --repo "$INPUT_REPO" >/dev/null 2>&1 || \
           gh release create "$REF_NAME" \
-            --repo "$INPUT_REPO"
+            --repo "$INPUT_REPO" \
+            --draft
       shell: bash
     - continue-on-error: true
       uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
@@ -39,5 +40,6 @@ runs:
         while IFS= read -r -d '' file; do
           gh release upload "$REF_NAME" "$file" --repo "$INPUT_REPO" --clobber
         done < <(find artifacts -type f -print0)
+        gh release edit "$REF_NAME" --repo "$INPUT_REPO" --draft=false
       shell: bash
   using: composite
