@@ -36,6 +36,9 @@ them to workflows as shown in README, then trigger via PR comments.
   parent key; a record literal once two or more keys share the parent, keys
   sorted
 - Keep Markdown lines wrapped at 80 columns and run `nix fmt` before shipping
+- Bot PRs: the reviewer takes the lead — the bot author never acts on
+  review comments, so apply the verdict at review time (merge clean PRs,
+  fix or close broken ones) instead of commenting and waiting.
 
 
 ## Environment
