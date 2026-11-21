@@ -28,7 +28,7 @@ the tool source and a `github-token` input.
 | `close` | Closes the PR | `pull-request-url` |
 | `backport` | Cherry-picks the PR onto a target branch | `target-branch`, `username` |
 | `checkout` | Checks out a PR with method-appropriate defaults | `base-ref`, `head-ref`, `parent-pull-request-url`, plus commit-signing inputs (`sign-commits`, `gpg-private-key`, `gpg-passphrase`, `email`, `fullname`, `username`) |
-| `checks` | Reads check-rollup state for a PR | `label`, `continue` |
+| `checks` | Gates on PR eligibility: all checks succeeded and the required label is present; outputs `continue` | `label` (default `auto`), `pull-request-url` |
 | `run` | Dispatches a workflow | `workflow`, `ref` |
 | `direnv` | Allows `.envrc` and exports its environment to the job | `cache-key`, `path` |
 | `release` | Creates or updates a GitHub release and uploads artifacts | `ref`, `repo` |
